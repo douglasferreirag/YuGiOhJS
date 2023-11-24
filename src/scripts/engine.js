@@ -42,13 +42,13 @@ const state = {
 
 const playerSides = {
 
-        player1: "player-field-card",
+        player1: "player-cards",
 
-        computer: "computer-field-card",
+        computer: "computer-cards",
 
 }
 
-const pathImages = ".src/assets/icons/";
+const pathImages = "./src/assets/icons/";
 
 const cardData = [
 
@@ -60,7 +60,7 @@ const cardData = [
 
         type: "Paper",
 
-        img: `${pathImages} dragon.png`,
+        img: `${pathImages}dragon.png`,
 
         WinOf: [1],
 
@@ -77,7 +77,7 @@ const cardData = [
 
         type: "Rock",
 
-        img: `${pathImages} magician.png`,
+        img: `${pathImages}magician.png`,
 
         WinOf: [2],
 
@@ -95,7 +95,7 @@ const cardData = [
 
         type: "Scissors",
 
-        img: `${pathImages} exoodia.png`,
+        img: `${pathImages}exodia.png`,
 
         WinOf: [0],
 
@@ -122,7 +122,7 @@ async function createCardImage(IdCard, fieldSide){
 
         cardImage.setAttribute("height", "100px");
 
-        cardImage.setAttribute("src", `${pathImages} card-back.png`);
+        cardImage.setAttribute("src", `${pathImages}card-back.png`);
 
         cardImage.setAttribute("data-id", IdCard);
 
@@ -130,26 +130,69 @@ async function createCardImage(IdCard, fieldSide){
 
         if(fieldSide === playerSides.player1 ) {
 
+            cardImage.addEventListener("mouseover", () => {
+
+                drawSelectCard(IdCard);
+    
+    
+            });
+
+
             cardImage.addEventListener("click", () => {
 
                     setCardsField(cardImage.getAttribute("data-id"));
 
-
+                   
 
 
 
             });
+
+            
+
         }
 
-        cardImage.addEventListener("mouseover", () => {
-
-            drawSelectCard(IdCard);
-
-
-        });
+       
 
 
         return cardImage;
+
+}
+
+async function setCardsField(cardId){
+
+
+        await removeAllCardsImages();
+
+        let computerCardId = await getRandomCardId();
+
+        state.fieldCards.player.style.display = "block";
+
+        state.fieldCards.computer.style.display = "block";
+
+
+        state.fieldCards.player.src = cardData[cardId].img;
+
+        state.fieldCards.computer.src = cardData[computerCardId].img;
+
+        let duelResults = await checkDuelResults(cardId, computerId)
+
+}
+
+async function drawSelectCard(index){
+
+        state.cardSprites.avatar.src = cardData[index].img;
+
+        state.cardSprites.name.innerText = cardData[index].name;
+
+        state.cardSprites.type.innerHTML = "Attribute: " + cardData[index].type;
+
+       
+        await updateScore();
+
+        await drawButton(duelResults);
+
+
 
 }
 
