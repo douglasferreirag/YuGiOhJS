@@ -182,11 +182,14 @@
 
     flex-direction: column;
 
+    justify-items: center;
+
+    align-content: center;
+
     padding-top: 0.3rem;
 
     height: 300px;
 
-    margin-top: 5rem;
 
 
 
@@ -264,5 +267,11 @@
 .card:hover {
 
     transform: scale(1.2);
+
+  }
+
+  .debug{
+
+    border: 1px solid red;
 
   }
